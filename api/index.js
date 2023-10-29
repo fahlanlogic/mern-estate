@@ -30,3 +30,14 @@ app.listen(3000, () => {
 // inisialisasi route untuk back end api/user
 app.use("/api/user", userRouter);
 app.use("/api/auth", authRouter);
+
+// membuat middleware jika ada kemungkinan error
+app.use((err, req, res, next) => {
+	const statusCode = err.statusCode || 500;
+	const errorMessage = err.message || 'Internal server error';
+	return res.status(statusCode).json({
+		succes: false,
+		statusCode,
+		errorMessage
+	})
+})
