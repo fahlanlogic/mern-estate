@@ -47,16 +47,17 @@ export default function SignUp() {
   console.log(formData);
 
   return (
-    <div className="max-w-xl mx-auto p-3">
-      <h1 className="text-3xl font-bold text-center p-3 mb-6">Sign Up</h1>
+    <div className="max-w-md lg:max-w-xl mx-auto mt-48">
+      <h1 className="text-4xl font-bold mb-2 text-slate-700 lg:text-5xl">Selamat datang di Airbnb</h1>
+      <h1 className="text-md mb-12 text-slate-700">Mendaftar atau masuk?</h1>
       <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
-        <input type="text" id="username" placeholder="Username" className="border p-2 rounded-xl" onChange={handleChange}/>
-        <input type="email" id="email" placeholder="Email" className="border p-2 rounded-xl" onChange={handleChange}/>
-        <input type="password" id="password" placeholder="Password" className="border p-2 rounded-xl" onChange={handleChange}/>
-        <button disabled={loading} className="bg-black text-white shadow-lg rounded-xl p-2 font-semibold hover:bg-white hover:text-black duration-300 disabled:bg-slate-600">{loading ? "Loading..." : "Sign Up"}</button>
+        <input type="text" id="username" placeholder="Username" className="border px-3 py-2 rounded-full" onChange={handleChange}/>
+        <input type="email" id="email" placeholder="Email" className="border px-3 py-2 rounded-full" onChange={handleChange}/>
+        <input type="password" id="password" placeholder="Password" className="border p-2 mb-5 px-3 py-2 rounded-full" onChange={handleChange}/>
+        <button disabled={loading} className="bg-pink-500 text-white shadow-lg rounded-full p-2 font-semibold hover:bg-pink-300 duration-300 disabled:bg-pink-300">{loading ? "Loading..." : "Sign Up"}</button>
       </form>
       <div className='flex gap-2 justify-center mt-6'>
-        <p>Already have an account?</p>
+        <p className='text-slate-700'>Already have an account?</p>
         <Link to={"/sign-in"}><span className='text-blue-600'>Sign In</span></Link>
       </div>
     </div>
