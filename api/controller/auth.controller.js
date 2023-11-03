@@ -19,25 +19,32 @@ export const signup = async (req, res, next) => {
 };
 
 export const signin = async (req, res, next) => {
-	const { email, password } = req.body;
+	const { email, password } = req.body; // menerima permintaan dari body
+	// try catch untuk menangkap kemungkinan terjadinya error
 	try {
-		const validUser = await User.findOne({ email });
-		if (!validUser) return next(errorHandler(404, "User not found!"));
+		const validUser = await User.findOne({ email }); // mencocokan email antara inputan dengan di database menggunakan model User dan function mongoose findOne
+		if (!validUser) return next(errorHandler(404, "User not found!")); // apabila email tidak tepat
 		const validPassword = await bcryptjs.compareSync(
+			// membandingkan password innputan dengan di database menggunakan library bcryptjs dengan functionnya compareSync
 			password,
 			validUser.password
 		);
+		// apabila password tidak tepat
 		if (!validPassword)
 			return next(errorHandler(401, "Wrong credential!"));
+		// membuat token dengan library jwt dengan menggunakan functionnya sign dan juga harus disertai ID user sesuai di database, lalu enkripsi password di JWT_SECRET
 		const token = jwt.sign(
 			{ id: validUser._id },
 			process.env.JWT_SECRET
 		);
+		// mengembalikan response tanpa menampilkan password
 		const { password: pass, ...rest } = validUser._doc;
+		// mengembalikan response pada postman
 		res.cookie("acces_token", token, { httpOnly: true })
 			.status(200)
 			.json(rest);
 	} catch (error) {
+		// menangkap error
 		next(error);
 	}
 };
