@@ -2,11 +2,14 @@
 // import React from 'react'
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom'
+import { signInStart, signInSucces, signInFailure } from '../redux/user/userSlice';
+import { useSelector, useDispatch } from "react-redux"
+
 
 export default function SignIn() {
+  const dispatch = useDispatch();   // digunakan untuk merender setState
+  const { loading, error } = useSelector((state) => state.user);   // digunakan untuk merender state
   const [formData, setFormData] = useState({}); // buat state untuk inputan data
-  const [error, setError] = useState(null); // buat state untuk menampilkan pesan error
-  const [loading, setLoading] = useState(false); // buat state untuk disabled button saat loading
   const navigate = useNavigate();
   // function yang digunakan untuk mengubah state, seterusnya kita akan menggunakan tehnik ini
   const handleChange = (e) => {
@@ -18,7 +21,7 @@ export default function SignIn() {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-    setLoading(true); // disable button
+    dispatch(signInStart()) // disable button
     // lakukan try catch untuk antisipasi kemungkinan error
     try {
       const res = await fetch("/api/auth/signin", {
@@ -31,17 +34,14 @@ export default function SignIn() {
       const data = await res.json();
       console.log(data)
       if (data.succes === false) {
-        setError(data.message)
-        alert("User not found or wrong password");
-        setLoading(false);
+        dispatch(signInSucces())
+        alert(data.message);
         return;
       }
-      setLoading(false);
-      setError(null)
+      dispatch(signInFailure())
       navigate("/");
     } catch (error) {
-      setError(error.message);
-      setLoading(false);
+      dispatch(signInFailure())
     }
   }
   console.log(formData);
