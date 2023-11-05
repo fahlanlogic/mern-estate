@@ -34,11 +34,11 @@ export default function SignIn() {
       const data = await res.json();
       console.log(data)
       if (data.succes === false) {
-        dispatch(signInSucces())
+        dispatch(signInFailure(data.message))
         alert(data.message);
         return;
       }
-      dispatch(signInFailure())
+      dispatch(signInSucces(data))
       navigate("/");
     } catch (error) {
       dispatch(signInFailure())
