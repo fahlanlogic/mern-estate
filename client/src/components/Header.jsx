@@ -1,10 +1,12 @@
 // import React from 'react'
 import { Link } from "react-router-dom"
+import { useSelector } from "react-redux"
 
 export default function Header() {
+  const { currentUser } = useSelector((state) => state.user)
   return (
     <header>
-      <div className="flex justify-between items-center p-3 bg-slate-white shadow-lg rounded-full max-w-md mx-auto mt-2 sm:max-w-5xl">
+      <div className="flex justify-between items-center px-3 py-2 bg-slate-white shadow-lg rounded-full max-w-md mx-auto mt-2 sm:max-w-5xl">
         <h1>
           <Link to="/">
             <div className="flex gap-1 items-center">
@@ -30,12 +32,16 @@ export default function Header() {
           <Link to="/about">
           <li className="hidden sm:inline hover:font-bold">About</li>
           </Link>
-          <Link to="/sign-in">
+          <Link to="/profile">
+            {currentUser ? (
+              <img src={currentUser.avatar} alt="profile" className="w-8 h-8 rounded-full object-cover" />
+            ) : (
             <div className="bg-pink-500 rounded-full border border-pink-500 overflow-hidden">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-7 h-7 text-white relative top-1">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-8 h-8 text-white relative top-1">
                 <path fillRule="evenodd" d="M7.5 6a4.5 4.5 0 119 0 4.5 4.5 0 01-9 0zM3.751 20.105a8.25 8.25 0 0116.498 0 .75.75 0 01-.437.695A18.683 18.683 0 0112 22.5c-2.786 0-5.433-.608-7.812-1.7a.75.75 0 01-.437-.695z" clipRule="evenodd" />
               </svg>
             </div>
+            )}
           {/* <li className="hover:font-bold">Sign In</li> */}
           </Link>
         </ul>
