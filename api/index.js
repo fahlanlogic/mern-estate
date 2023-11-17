@@ -3,6 +3,7 @@ import mongoose from "mongoose";
 import dotenv from "dotenv";
 import userRouter from "./routes/user.route.js";
 import authRouter from "./routes/auth.route.js";
+import cookieParser from "cookie-parser";
 
 // inisialisasi dari package dotenv agar bisa dipakai
 dotenv.config();
@@ -11,6 +12,7 @@ dotenv.config();
 const app = express();
 
 app.use(express.json());
+app.use(cookieParser());
 
 // menghubungkan server dengan database mongoDB menggunakan perintah connect dan lakukan percobaan dengan then/catch
 mongoose
@@ -30,6 +32,7 @@ app.listen(3000, () => {
 // inisialisasi route untuk back end api/user
 app.use("/api/user", userRouter);
 app.use("/api/auth", authRouter);
+
 
 // membuat middleware jika ada kemungkinan error
 app.use((err, req, res, next) => {
