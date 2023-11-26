@@ -2,6 +2,7 @@
 /* eslint-disable no-unused-vars */
 import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { Link } from 'react-router-dom'
 import { getDownloadURL, getStorage, ref, uploadBytesResumable } from "firebase/storage";
 import { app } from "../firebase";
 import { deleteUserFailure, deleteUserStart, deleteUserSuccess, signOutFailure, signOutStart, signOutSuccess, updateUserFailure, updateUserStart, updateUserSuccess } from "../redux/user/userSlice";
@@ -131,6 +132,7 @@ export default function Profile() {
             <input id="email" defaultValue={currentUser.email} onChange={handleChange} type="email" placeholder="Email" className="border rounded-full px-3 py-2" />
             <input id="password" onChange={handleChange} type="password" placeholder="Password" className="border rounded-full px-3 py-2" />
             <button disabled={loading} className="bg-pink-500 text-white font-semibold duration-300 rounded-full px-3 py-2 hover:bg-pink-700 transition">{ loading ? 'Loading...' : 'Update' }</button>
+            <Link to={"/create-listing"} className="bg-pink-500 text-white text-center font-semibold duration-300 rounded-full px-3 py-2 hover:bg-pink-700 transition">Create Listing</Link>
           </form>
           <div className="flex justify-between mt-4">
             <span onClick={handleDeleteUser} className="font-medium cursor-pointer text-slate-700 hover:text-red-700">Delete account?</span>
