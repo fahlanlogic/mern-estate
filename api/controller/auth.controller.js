@@ -4,7 +4,7 @@ import { errorHandler } from "../utils/error.js";
 import jwt from "jsonwebtoken";
 
 // agar tidak buffer lama kita harus menggunakan async await untuk mengabaikan proses buffer
-export const signup = async (req, res, next) => {
+export const signUp = async (req, res, next) => {
 	const { username, email, password } = req.body; // destructuring variable untuk menerima request body
 	const hashedPassword = bcryptjs.hashSync(password, 10); // encryption password
 
@@ -18,7 +18,7 @@ export const signup = async (req, res, next) => {
 	}
 };
 
-export const signin = async (req, res, next) => {
+export const signIn = async (req, res, next) => {
 	const { email, password } = req.body; // menerima permintaan dari body
 	// try catch untuk menangkap kemungkinan terjadinya error
 	try {
@@ -49,7 +49,7 @@ export const signin = async (req, res, next) => {
 	}
 };
 
-export const google = async (req, res, next) => {
+export const googleAuth = async (req, res, next) => {
 	try {
 		const user = await User.findOne({ email: req.body.email });
 		if (user) {
@@ -89,5 +89,14 @@ export const google = async (req, res, next) => {
 		}
 	} catch (error) {
 		next(error);
+	}
+};
+
+export const signOut = (req, res, next) => {
+	try {
+		res.clearCookie("access_token");
+		res.status(200).json("User has been logged out!");
+	} catch (error) {
+		next(error.message);
 	}
 };

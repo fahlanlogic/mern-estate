@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getDownloadURL, getStorage, ref, uploadBytesResumable } from "firebase/storage";
 import { app } from "../firebase";
-import { deleteUserFailure, deleteUserStart, deleteUserSuccess, updateUserFailure, updateUserStart, updateUserSuccess } from "../redux/user/userSlice";
+import { deleteUserFailure, deleteUserStart, deleteUserSuccess, signOutFailure, signOutStart, signOutSuccess, updateUserFailure, updateUserStart, updateUserSuccess } from "../redux/user/userSlice";
 
 // firebase storage rules
 // allow read;   // mengizinkan client membaca file
@@ -97,6 +97,21 @@ export default function Profile() {
     }
   }
 
+  const handleSignOut = async () => {
+    try {
+      dispatch(signOutStart())
+      const res =  await fetch('api/auth/signout');
+      const data = await res.json();
+      if (data.success === false) {
+        dispatch(signOutFailure(data.message))
+        return
+      }
+      dispatch(signOutSuccess(data))
+    } catch (error) {
+      dispatch(signOutFailure(error.message))
+    }
+  }
+
   return (
     <div className="absolute top-0 left-1/2 -translate-x-1/2 max-w-sm w-full px-3 md:max-w-lg xl:max-w-xl 2xl:max-w-2xl">
       <div className="h-screen flex items-center justify-center">
@@ -118,8 +133,8 @@ export default function Profile() {
             <button disabled={loading} className="bg-pink-500 text-white font-semibold duration-300 rounded-full px-3 py-2 hover:bg-pink-700 transition">{ loading ? 'Loading...' : 'Update' }</button>
           </form>
           <div className="flex justify-between mt-4">
-            <span onClick={handleDeleteUser} className="font-medium cursor-pointer text-slate-700">Delete account?</span>
-            <span className="font-medium text-slate-700">Sign Out</span>
+            <span onClick={handleDeleteUser} className="font-medium cursor-pointer text-slate-700 hover:text-red-700">Delete account?</span>
+            <span onClick={handleSignOut} className="font-medium text-slate-700 cursor-pointer hover:text-red-700">Sign Out</span>
           </div>
           <div>
             <p>{ error ? error : ''}</p>
