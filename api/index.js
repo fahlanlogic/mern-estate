@@ -33,7 +33,7 @@ app.listen(3000, () => {
 // inisialisasi route untuk back end api/user
 app.use("/api/user", userRouter);
 app.use("/api/auth", authRouter);
-app.use("/api/listings", listingRouter);
+app.use("/api/listing", listingRouter);
 
 
 // membuat middleware jika ada kemungkinan error

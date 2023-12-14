@@ -82,8 +82,10 @@ export default function CreateListing() {
     setFormData({ ...formData, imageUrls: formData.imageUrls.filter((_, i) => i !== index) })  // logika delete, gak paham
   }
 
+  // melakukan perubahan pada nilai masing-masing input
   const handleChange = (e) => {
-    if (e.target.id === 'sale' || e.target.id === 'rent') {
+    // dikategorikan seusai type inputnya masing-masing
+    if (e.target.id === 'sale' || e.target.id === 'rent') {  // kondisi jika salah satu terpilih satu lainnya tidak
       setFormData({ ...formData, type: e.target.id })
     }
     if (e.target.id === 'parking' || e.target.id === 'furnished' || e.target.id === 'offer') {
@@ -94,27 +96,30 @@ export default function CreateListing() {
     }
   }
 
-  const handleSubmit = async (e) => {
+  // meng submit perubahan yang terjadi
+  const handleSubmit = async (e) => {  // parameter e hanya digunakan agar halaman tidak di refresh
     e.preventDefault()
     try {
+      // kondisi yang wajib terpenuhi sebelum submit
       if (formData.name.length < 10) return setError("Name must be at least 10 characters long")
       if (formData.regularPrice < formData.discountedPrice) return setError("Discounted price must be less than regular price")
       if (formData.imageUrls.length < 1) return setError("Please upload at least 1 image")
-      setLoading(true)
-      setError(false)
+      setLoading(true)  // disable button & loading
+      setError(false)  // tidak menjalankan error
+      // mengirimkan data ke API untuk menambahkan data ke database
       const res = await fetch('/api/listing/create', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({...formData, userRef: currentUser._id}),
+        body: JSON.stringify({...formData, userRef: currentUser._id}),  // menyimpan data dengan referensi user di isi dengan id user, ini wajib dilakukan karena property _id tidak tersimpan didalam model database maka kita harus menyimpan manual di userRef
       })
       const data = await res.json()
       setLoading(false)
       if (data.success === false) {
         setError(data.message)
       }
-      navigate(`/listing/${data._id}`)
+      navigate(`/listing/${data._id}`)  // mengarahkan ke halaman listing yang baru di submit
     } catch (error) {
       setError(error.message)
       setLoading(false)
