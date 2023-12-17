@@ -21,7 +21,6 @@ export default function Profile() {
   const [fileUploadError, setFileUploadError] = useState(false);   // state untuk menampung error
   const [formData, setFormData] = useState({});   // state untuk menampung data baru 
   const [showListingsError, setShowListingsError] = useState(false);
-  const [userListings, setUserListings] = useState([]);
   const dispatch = useDispatch()
   const navigate = useNavigate();
   console.log(filePerc);
@@ -119,14 +118,14 @@ export default function Profile() {
   const handleShowListings = async () => {
     try {
       // setShowListingsError(false)
-      const res = await fetch(`/api/user/listings/${currentUser._id}`);
+      const res = await fetch(`/api/user/listing/${currentUser._id}`);
       const data = await res.json();
       if (data.success === false) {
         setShowListingsError(data.message)
         return
       }
       // setUserListings(data);
-      navigate("/show-listings")
+      navigate("/show-listing")
     } catch (error) {
       setShowListingsError(true);
     }
