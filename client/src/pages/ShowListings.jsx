@@ -42,7 +42,7 @@ export default function ShowListing() {
     }
   }
   return (
-    <div className="max-w-5xl mx-auto p-6 sm:p-0 sm:max-w-xl mt-10 xl:max-w-5xl">
+    <div className="max-w-5xl mx-auto px-3 sm:p-0 sm:max-w-xl mt-10 xl:max-w-5xl">
       <p>{ showListingsError ? "Error showing listings" : " "}</p>
       { userListings && userListings.length > 0 && 
         <div className="flex flex-col gap-3">

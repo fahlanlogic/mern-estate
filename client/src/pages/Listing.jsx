@@ -1,10 +1,12 @@
 import { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { Swiper, SwiperSlide } from "swiper/react";
 import SwiperCore from "swiper";
 import { Navigation } from "swiper/modules";
 import "swiper/css/bundle";
 import { FaBath, FaBed, FaChair, FaLocationDot, FaShare, FaSquareParking } from "react-icons/fa6";
+import Contact from "./Contact";
 
 export default function Listing() {
   SwiperCore.use([Navigation]);
@@ -13,6 +15,8 @@ export default function Listing() {
   const [error, setError] = useState(false);
   const params = useParams();
   const [copied, setCopied] = useState(false);
+  const { currentUser } = useSelector((state) => state.user);
+  const [contact, setContact] = useState(false);
 
   useEffect(() => {
     const fetchListing = async () => {
@@ -64,12 +68,12 @@ export default function Listing() {
             </p>
             <div className="flex gap-3 w-full flex-wrap mb-8 items-center xl:text-lg">
               {/* price */}
-              <div className="px-2 py-1 rounded-lg text-white bg-pink-700 w-48 text-center shadow-md xl:w-56">
+              <div className="px-2 py-1 rounded-lg text-white bg-pink-700 w-56 text-center shadow-md xl:w-72">
                 <span className="line-through pr-2">${listing.regularPrice}</span>
                 <span className="font-bold">${+listing.regularPrice - +listing.discountedPrice} / month</span>
               </div>
               {/* discount percentage */}
-              <p className="px-3 py-1 bg-pink-700 rounded-lg w-24 text-center text-white font-black shadow-md xl:w-36">{+listing.discountedPrice / +listing.regularPrice * 100}% OFF</p>
+              <p className="px-3 py-1 bg-pink-700 rounded-lg w-24 text-center text-white font-black shadow-md xl:w-36">{Math.round(+listing.discountedPrice / +listing.regularPrice * 100)}% OFF</p>
               {/* type */}
               <p className="px-2 py-1 text-white bg-slate-700 rounded-lg w-24 text-center font-bold shadow-md xl:w-32">{listing.type === "rent" ? "For Rent" : "For Sale"}</p>
               {/* share */}
@@ -101,6 +105,10 @@ export default function Listing() {
                 {listing.furnished ? "furnished" : "not furnished"}
               </li>
             </ul>
+            {currentUser && listing.userRef !== currentUser._id && !contact && (
+              <button onClick={() => setContact(true)} className="bg-slate-700 rounded-lg w-full shadow-md text-white font-semibold py-2 my-8 hover:opacity-80 transition duration-500 text-base xl:text-lg">Contact Landlord</button>
+            )}
+            {contact && <Contact listing={listing} />}
           </div>
         </div>
       )}
