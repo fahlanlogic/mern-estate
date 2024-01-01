@@ -70,7 +70,7 @@ export default function Listing() {
               {/* price */}
               <div className="px-2 py-1 rounded-lg text-white bg-pink-700 w-56 text-center shadow-md xl:w-72">
                 <span className="line-through pr-2">${listing.regularPrice}</span>
-                <span className="font-bold">${+listing.regularPrice - +listing.discountedPrice} / month</span>
+                <span className="font-bold">${+listing.regularPrice - +listing.discountedPrice} / mo</span>
               </div>
               {/* discount percentage */}
               <p className="px-3 py-1 bg-pink-700 rounded-lg w-24 text-center text-white font-black shadow-md xl:w-36">{Math.round(+listing.discountedPrice / +listing.regularPrice * 100)}% OFF</p>
