@@ -1,9 +1,29 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 // import React from 'react'
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import { useSelector } from "react-redux"
+import { useEffect, useState } from "react"
 
 export default function Header() {
   const { currentUser } = useSelector((state) => state.user)
+  const [searchTerm, setSearchTerm] = useState("");  // state penampung input search
+  const navigate = useNavigate();
+
+  const handleSubmit = (e) => {  
+    e.preventDefault();
+    const urlParams = new URLSearchParams(window.location.search);  // menggunakan constructor dari react yaitu URLSearchParams 
+    urlParams.set("searchTerm", searchTerm);  // mengatur constructor tadi dengan key dan nilai
+    const searchQuery = urlParams.toString();  // mengubah input searchTerm menjadi string agar dapat dinavigate
+    navigate(`/search?${searchQuery}`);  // menavigasi sesuai inputan search
+  }
+
+  useEffect(() => {  // me-render tampilan saat user memberi inputan di kolom url bukan search agar kolom search interaktif mengikuti
+    const urlParams = new URLSearchParams(location.search);  // sama seperti tadi 
+    const searchTermFromUrl = urlParams.get("searchTerm");  // mengambil nilai dari key
+    if (searchTermFromUrl) {  // jika key terisi/true
+      setSearchTerm(searchTermFromUrl);  // atur nilai state sesuai pencarian di kolom url agar tampil di kolom search
+    }
+  }, [location.search])  // berhenti render ketika kolom search terpenuhi
   return (
     <header className="sticky top-0 z-50">
       <div className="flex justify-between items-center px-3 py-2 bg-white shadow-lg md:px-10 lg:px-16">
@@ -17,13 +37,16 @@ export default function Header() {
             </div>
           </Link>
         </h1>
-        <form className="flex items-center p-0.5 xl:p-1.5 border rounded-full">
-          <input type="text" placeholder="Search..." className="px-2 bg-transparent focus:outline-none placeholder:text-sm w-40 sm:w-64 xl:w-96"/>
-          <div className="bg-pink-500 rounded-full p-1.5">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-4 h-4 text-white">
-              <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
-            </svg>
-          </div>
+        {/* search */}
+        <form onSubmit={handleSubmit} className="flex items-center p-0.5 xl:p-1.5 border rounded-full">
+          <input value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} type="text" placeholder="Search..." className="px-2 bg-transparent focus:outline-none placeholder:text-sm w-40 sm:w-64 xl:w-96"/>
+          <button>
+            <div className="bg-pink-500 rounded-full p-1.5">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-4 h-4 text-white">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
+              </svg>
+            </div>
+          </button>
         </form>
         <ul className="flex sm:gap-5 items-center">
           <Link to="/">
