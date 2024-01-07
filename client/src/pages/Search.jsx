@@ -7,6 +7,7 @@ export default function Search() {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [listings, setListings] = useState([]);
+  const [showMore, setShowMore] = useState(false);
   const [sidebardata, setSidebardata] = useState({
     searchTerm: "",
     type: "all",
@@ -53,6 +54,11 @@ export default function Search() {
       const searchQuery = urlParams.toString();
       const res = await fetch(`/api/listing/get?${searchQuery}`);
       const data = await res.json();
+      if (data.length > 8) {
+        setShowMore(true)
+      } else {
+        setShowMore(false)
+      }
       setListings(data);
       setLoading(false)
     }
@@ -75,7 +81,21 @@ export default function Search() {
       setSidebardata({ ...sidebardata, sort, order })
     }
   }
-
+  const handleShowMore = async () => {
+    const urlParams = new URLSearchParams(location.search);
+    const numberOfListings = listings.length;
+    const startIndex = numberOfListings;
+    urlParams.set("startIndex", startIndex);
+    const searchQuery = urlParams.toString();
+    const res = await fetch(`/api/listing/get?${searchQuery}`);
+    const data = await res.json()
+    setListings([...listings, ...data]);
+    if (data.length > 8) {
+      setShowMore(true)
+    } else {
+      setShowMore(false)
+    }
+  }
   const handleSubmit = (e) => {
     e.preventDefault()
     const urlParams = new URLSearchParams();
@@ -89,6 +109,7 @@ export default function Search() {
     const searchQuery = urlParams.toString();
     navigate(`/search?${searchQuery}`)
   }
+
 
   return (
     <div className="p-5 flex flex-col lg:flex-row">
@@ -145,8 +166,8 @@ export default function Search() {
         <button className="w-full bg-gradient-to-b from-pink-600 to-pink-700 border-pink-700 shadow-lg text-white rounded-xl p-2 font-semibold hover:opacity-80">Search</button>
       </form>
       <div className="flex flex-col lg:pl-10 w-full">
-        <h1 className="font-semibold w-full text-3xl mb-6 lg:border-b-2 lg:pb-3 lg:text-xl">Listing Result: </h1>
-        <div className="grid gap-6 grid-cols-2 w-full xl:grid-cols-3">
+        <h1 className="font-semibold w-full text-2xl mb-6 lg:border-b-2 lg:pb-3 lg:text-5xl">Listing Result: </h1>
+        <div className="grid gap-6 mb-6 md:grid-cols-2 w-full xl:grid-cols-3">
           {!loading && listings.length === 0 && (
             <p>No listings found</p>
           )}
@@ -157,6 +178,9 @@ export default function Search() {
             <ListingItem key={listing._id} listing={listing} />
           ))}
         </div>
+        {showMore && (
+          <button onClick={handleShowMore} className="w-full bg-gradient-to-b from-pink-600 to-pink-700 border-pink-700 shadow-lg text-white rounded-xl p-2 font-semibold hover:opacity-80">Show more</button>
+        )}
       </div>
     </div>
   )
