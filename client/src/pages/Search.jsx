@@ -1,6 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import ListingItem from "../components/ListingItem";
 
 export default function Search() {
   const navigate = useNavigate();
@@ -143,8 +144,19 @@ export default function Search() {
         </div>
         <button className="w-full bg-gradient-to-b from-pink-600 to-pink-700 border-pink-700 shadow-lg text-white rounded-xl p-2 font-semibold hover:opacity-80">Search</button>
       </form>
-      <div className="w-full lg:pl-10">
-        <h1 className="font-semibold w-full text-xl lg:border-b-2 lg:pb-3 lg:text-xl">Listing Result: </h1>
+      <div className="flex flex-col lg:pl-10 w-full">
+        <h1 className="font-semibold w-full text-3xl mb-6 lg:border-b-2 lg:pb-3 lg:text-xl">Listing Result: </h1>
+        <div className="grid gap-6 grid-cols-2 w-full xl:grid-cols-3">
+          {!loading && listings.length === 0 && (
+            <p>No listings found</p>
+          )}
+          {loading && (
+            <p className="text-center">Loading...</p>
+          )}
+          {!loading && listings && listings.map((listing) => (
+            <ListingItem key={listing._id} listing={listing} />
+          ))}
+        </div>
       </div>
     </div>
   )
