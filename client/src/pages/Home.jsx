@@ -95,7 +95,7 @@ export default function Home() {
 			{/* listing */}
 			{/* offer listing */}
 			{offerListing && offerListing.length > 0 && (
-				<div className="px-3 mx-auto mt-16 md:max-w-2xl lg:max-w-4xl xl:max-w-6xl border-b-2 border-gray-200 pb-8">
+				<div className="px-3 mx-auto mt-16 md:max-w-2xl lg:max-w-4xl xl:max-w-6xl">
 					<div className="flex justify-between items-center mb-4 xl:mb-8">
 						<h2 className="font-bold text-xl lg:text-2xl xl:text-3xl">
 							Recent Offer
@@ -106,7 +106,7 @@ export default function Home() {
 							Show more
 						</Link>
 					</div>
-					<div className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3">
+					<div className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3 border-b-2 border-gray-200 pb-8">
 						{offerListing.map(listing => (
 							<ListingItem
 								listing={listing}
@@ -116,7 +116,7 @@ export default function Home() {
 				</div>
 			)}
 			{saleListing && saleListing.length > 0 && (
-				<div className="px-3 mt-8 md:max-w-2xl lg:max-w-4xl xl:max-w-6xl mx-auto border-b-2 border-gray-200 pb-8">
+				<div className="px-3 mt-8 md:max-w-2xl lg:max-w-4xl xl:max-w-6xl mx-auto">
 					<div className="flex justify-between items-center mb-4 xl:mb-8">
 						<h2 className="font-bold text-xl lg:text-2xl xl:text-3xl">
 							Recent Place for Sale
@@ -127,7 +127,7 @@ export default function Home() {
 							Show more
 						</Link>
 					</div>
-					<div className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3">
+					<div className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3 border-b-2 border-gray-200 pb-8">
 						{saleListing.map(listing => (
 							<ListingItem
 								listing={listing}
@@ -137,7 +137,7 @@ export default function Home() {
 				</div>
 			)}
 			{rentListing && rentListing.length > 0 && (
-				<div className="px-3 mt-8 md:max-w-2xl lg:max-w-4xl xl:max-w-6xl mx-auto pb-8">
+				<div className="px-3 mt-8 md:max-w-2xl lg:max-w-4xl xl:max-w-6xl mx-auto pb-3">
 					<div className="flex justify-between items-center mb-4 xl:mb-8">
 						<h2 className="font-bold text-xl lg:text-2xl xl:text-3xl">
 							Recent Place for Rent
@@ -148,7 +148,7 @@ export default function Home() {
 							Show more
 						</Link>
 					</div>
-					<div className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3">
+					<div className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3 border-b-2 border-gray-200 pb-8">
 						{rentListing.map(listing => (
 							<ListingItem
 								listing={listing}

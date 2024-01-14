@@ -12,25 +12,47 @@ import ShowListing from "./pages/ShowListings"
 import UpdateListing from "./pages/UpdateListing"
 import Listing from "./pages/Listing"
 import Search from "./pages/Search"
+import Footer from "./components/Footer";
 
 export default function App() {
   return (
-    <BrowserRouter>
-      <Header />
-      <Routes>
-        <Route path="/" element={<Home />}></Route>
-        <Route element={<PrivateRoute />}>
-          <Route path="/profile" element={<Profile />}></Route>
-          <Route path="/create-listing" element={<CreateListing />}></Route>
-          <Route path="/show-listing" element={<ShowListing />}></Route>
-          <Route path="/update-listing/:listingId" element={<UpdateListing />}></Route>
-        </Route>
-        <Route path="/about" element={<About />}></Route>
-        <Route path="/sign-up" element={<SignUp />}></Route>
-        <Route path="/sign-in" element={<SignIn />}></Route>
-        <Route path="/listing/:listingId" element={<Listing />}></Route>
-        <Route path="/search" element={<Search />}></Route>
-      </Routes>
-    </BrowserRouter>
-  )
+		<BrowserRouter>
+			<Header />
+			<Routes>
+				<Route
+					path="/"
+					element={<Home />}></Route>
+				<Route element={<PrivateRoute />}>
+					<Route
+						path="/profile"
+						element={<Profile />}></Route>
+					<Route
+						path="/create-listing"
+						element={<CreateListing />}></Route>
+					<Route
+						path="/show-listing"
+						element={<ShowListing />}></Route>
+					<Route
+						path="/update-listing/:listingId"
+						element={<UpdateListing />}></Route>
+				</Route>
+				<Route
+					path="/about"
+					element={<About />}></Route>
+				<Route
+					path="/sign-up"
+					element={<SignUp />}></Route>
+				<Route
+					path="/sign-in"
+					element={<SignIn />}></Route>
+				<Route
+					path="/listing/:listingId"
+					element={<Listing />}></Route>
+				<Route
+					path="/search"
+					element={<Search />}></Route>
+			</Routes>
+			<Footer />
+		</BrowserRouter>
+  );
 }
