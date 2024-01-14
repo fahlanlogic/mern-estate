@@ -132,33 +132,97 @@ export default function Profile() {
   }
 
   return (
-    <div className="max-w-sm w-full mx-auto mt-10 p-2 md:mt-20 md:max-w-lg xl:max-w-xl 2xl:max-w-2xl">
-      <h1 className="text-4xl font-bold text-center text-slate-700">Profile</h1>
-      <form onSubmit={handleSubmit} className="flex flex-col justify-center gap-4">
-        <input type="file" ref={fileRef} accept="image/*" hidden onChange={(e) => setFile(e.target.files[0])}/>
-        <img src={formData.avatar || currentUser.avatar} onClick={() => fileRef.current.click()} alt="" className="cursor-pointer self-center mt-10 w-32 h-32 rounded-full object-cover"/>
-        <p className="text-sm self-center mb-10">
-          {fileUploadError ? (<span className="text-red-700">Something went wrong (must be less than 2MB)</span>)
-          : filePerc > 0 && filePerc < 100 ? (<span>Uploading: {filePerc}%</span>)
-          : filePerc === 100 ? (<span className="text-green-700">Uploaded</span>)
-          : " "
-          }
-        </p>
-        <input id="username" defaultValue={currentUser.username} onChange={handleChange} type="text" placeholder="Username" className="border rounded-full px-3 py-2" />
-        <input id="email" defaultValue={currentUser.email} onChange={handleChange} type="email" placeholder="Email" className="border rounded-full px-3 py-2" />
-        <input id="password" onChange={handleChange} type="password" placeholder="Password" className="border rounded-full px-3 py-2" />
-        <button disabled={loading} className="bg-pink-500 text-white font-semibold duration-300 rounded-full px-3 py-2 hover:bg-pink-700 transition">{ loading ? 'Loading...' : 'Update' }</button>
-        <Link to={"/create-listing"} className="bg-pink-500 text-white text-center font-semibold duration-300 rounded-full px-3 py-2 hover:bg-pink-700 transition">Create Listing</Link>
-      </form>
-      <button onClick={handleShowListings} className="w-full mt-4 font-bold text-white bg-pink-500 rounded-full py-2 hover:bg-pink-700 transition duration-300">Show Listings</button>
-      <div className="flex justify-between mt-4">
-        <span onClick={handleDeleteUser} className="font-medium cursor-pointer text-slate-700 hover:text-red-700">Delete account?</span>
-        <span onClick={handleSignOut} className="font-medium text-slate-700 cursor-pointer hover:text-red-700">Sign Out</span>
-      </div>
-      <div>
-        <p>{ error ? error : ''}</p>
-      </div>
-      {/* <p className="text-red">{ showListingsError ? "Error showing listings" : " "}</p>
+		<div className="max-w-sm font-quikcsand w-full mx-auto pt-32 p-2 md:max-w-lg xl:max-w-xl 2xl:max-w-2xl">
+			<h1 className="text-4xl font-extrabold text-center text-slate-700">
+				Profile
+			</h1>
+			<form
+				onSubmit={handleSubmit}
+				className="flex flex-col justify-center gap-4">
+				<input
+					type="file"
+					ref={fileRef}
+					accept="image/*"
+					hidden
+					onChange={e => setFile(e.target.files[0])}
+				/>
+				<img
+					src={formData.avatar || currentUser.avatar}
+					onClick={() => fileRef.current.click()}
+					alt=""
+					className="cursor-pointer self-center mt-10 w-32 h-32 rounded-full object-cover"
+				/>
+				<p className="text-sm self-center mb-10">
+					{fileUploadError ? (
+						<span className="text-red-700">
+							Something went wrong (must be less
+							than 2MB)
+						</span>
+					) : filePerc > 0 && filePerc < 100 ? (
+						<span>Uploading: {filePerc}%</span>
+					) : filePerc === 100 ? (
+						<span className="text-green-700">
+							Uploaded
+						</span>
+					) : (
+						" "
+					)}
+				</p>
+				<input
+					id="username"
+					defaultValue={currentUser.username}
+					onChange={handleChange}
+					type="text"
+					placeholder="Username"
+					className="border rounded-full px-3 py-2"
+				/>
+				<input
+					id="email"
+					defaultValue={currentUser.email}
+					onChange={handleChange}
+					type="email"
+					placeholder="Email"
+					className="border rounded-full px-3 py-2"
+				/>
+				<input
+					id="password"
+					onChange={handleChange}
+					type="password"
+					placeholder="Password"
+					className="border rounded-full px-3 py-2"
+				/>
+				<button
+					disabled={loading}
+					className="bg-gradient-to-b from-pink-500 to-pink-600 text-white font-semibold duration-300 rounded-full px-3 py-2 hover:opacity-90 transition">
+					{loading ? "Loading..." : "Update"}
+				</button>
+				<Link
+					to={"/create-listing"}
+					className="bg-gradient-to-b from-pink-500 to-pink-600 text-white text-center font-semibold duration-300 rounded-full px-3 py-2 hover:opacity-90 transition">
+					Create Listing
+				</Link>
+			</form>
+			<button
+				onClick={handleShowListings}
+				className="w-full mt-4 font-bold text-white bg-gradient-to-b from-pink-500 to-pink-600 rounded-full py-2 hover:opacity-90 transition duration-300">
+				Show Listings
+			</button>
+			<div className="flex justify-between mt-4">
+				<span
+					onClick={handleDeleteUser}
+					className="font-medium cursor-pointer text-slate-700 hover:text-red-700">
+					Delete account?
+				</span>
+				<span
+					onClick={handleSignOut}
+					className="font-medium text-slate-700 cursor-pointer hover:text-red-700">
+					Sign Out
+				</span>
+			</div>
+			<div>
+				<p>{error ? error : ""}</p>
+			</div>
+			{/* <p className="text-red">{ showListingsError ? "Error showing listings" : " "}</p>
       { userListings && userListings.length > 0 && 
         <div className="flex flex-col gap-3">
           <h1 className="mt-10 mb-5 text-center font-semibold text-lg">Your Listings</h1>
@@ -174,6 +238,6 @@ export default function Profile() {
           ))}
         </div> 
       } */}
-    </div>
-  )
+		</div>
+  );
 }
