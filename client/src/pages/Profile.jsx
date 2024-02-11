@@ -132,112 +132,98 @@ export default function Profile() {
   }
 
   return (
-		<div className="max-w-sm font-quikcsand w-full mx-auto pt-32 p-2 md:max-w-lg xl:max-w-xl 2xl:max-w-2xl">
-			<h1 className="text-4xl font-extrabold text-center text-slate-700">
-				Profile
-			</h1>
-			<form
-				onSubmit={handleSubmit}
-				className="flex flex-col justify-center gap-4">
-				<input
-					type="file"
-					ref={fileRef}
-					accept="image/*"
-					hidden
-					onChange={e => setFile(e.target.files[0])}
-				/>
-				<img
-					src={formData.avatar || currentUser.avatar}
-					onClick={() => fileRef.current.click()}
-					alt=""
-					className="cursor-pointer self-center mt-10 w-32 h-32 rounded-full object-cover"
-				/>
-				<p className="text-sm self-center mb-10">
-					{fileUploadError ? (
-						<span className="text-red-700">
-							Something went wrong (must be less
-							than 2MB)
-						</span>
-					) : filePerc > 0 && filePerc < 100 ? (
-						<span>Uploading: {filePerc}%</span>
-					) : filePerc === 100 ? (
-						<span className="text-green-700">
-							Uploaded
-						</span>
-					) : (
-						" "
-					)}
-				</p>
-				<input
-					id="username"
-					defaultValue={currentUser.username}
-					onChange={handleChange}
-					type="text"
-					placeholder="Username"
-					className="border rounded-full px-3 py-2"
-				/>
-				<input
-					id="email"
-					defaultValue={currentUser.email}
-					onChange={handleChange}
-					type="email"
-					placeholder="Email"
-					className="border rounded-full px-3 py-2"
-				/>
-				<input
-					id="password"
-					onChange={handleChange}
-					type="password"
-					placeholder="Password"
-					className="border rounded-full px-3 py-2"
-				/>
+		<div className="mx-auto h-screen flex items-center justify-center px-4 md:w-5/6 lg:max-w-2xl">
+			<div className="w-full pt-10">
+				<h1 className="text-4xl font-extrabold text-center text-slate-700">
+					Profile
+				</h1>
+				<form
+					onSubmit={handleSubmit}
+					className="flex flex-col justify-center gap-4">
+					<input
+						type="file"
+						ref={fileRef}
+						accept="image/*"
+						hidden
+						onChange={e => setFile(e.target.files[0])}
+					/>
+					<img
+						src={formData.avatar || currentUser.avatar}
+						onClick={() => fileRef.current.click()}
+						alt=""
+						className="cursor-pointer self-center mt-10 w-32 h-32 rounded-full object-cover"
+					/>
+					<p className="text-sm self-center mb-10">
+						{fileUploadError ? (
+							<span className="text-red-700">
+								Something went wrong (must be
+								less than 2MB)
+							</span>
+						) : filePerc > 0 && filePerc < 100 ? (
+							<span>Uploading: {filePerc}%</span>
+						) : filePerc === 100 ? (
+							<span className="text-green-700">
+								Uploaded
+							</span>
+						) : (
+							" "
+						)}
+					</p>
+					<input
+						id="username"
+						defaultValue={currentUser.username}
+						onChange={handleChange}
+						type="text"
+						placeholder="Username"
+						className="border rounded-full px-3 py-2"
+					/>
+					<input
+						id="email"
+						defaultValue={currentUser.email}
+						onChange={handleChange}
+						type="email"
+						placeholder="Email"
+						className="border rounded-full px-3 py-2"
+					/>
+					<input
+						id="password"
+						onChange={handleChange}
+						type="password"
+						placeholder="Password"
+						className="border rounded-full px-3 py-2"
+					/>
+					<button
+						disabled={loading}
+						className="bg-gradient-to-b from-pink-500 to-pink-600 text-white font-semibold duration-300 rounded-full px-3 py-2 hover:opacity-80 transition">
+						{loading ? "Loading..." : "Update"}
+					</button>
+					<Link
+						to={"/create-listing"}
+						className="bg-gradient-to-b from-pink-500 to-pink-600 text-white text-center font-semibold duration-300 rounded-full px-3 py-2 hover:opacity-80 transition">
+						Create Listing
+					</Link>
+				</form>
 				<button
-					disabled={loading}
-					className="bg-gradient-to-b from-pink-500 to-pink-600 text-white font-semibold duration-300 rounded-full px-3 py-2 hover:opacity-90 transition">
-					{loading ? "Loading..." : "Update"}
+					onClick={handleShowListings}
+					className="w-full mt-4 font-bold text-white bg-gradient-to-b from-pink-500 to-pink-600 rounded-full py-2 hover:opacity-80 transition duration-300">
+					Show Listings
 				</button>
-				<Link
-					to={"/create-listing"}
-					className="bg-gradient-to-b from-pink-500 to-pink-600 text-white text-center font-semibold duration-300 rounded-full px-3 py-2 hover:opacity-90 transition">
-					Create Listing
-				</Link>
-			</form>
-			<button
-				onClick={handleShowListings}
-				className="w-full mt-4 font-bold text-white bg-gradient-to-b from-pink-500 to-pink-600 rounded-full py-2 hover:opacity-90 transition duration-300">
-				Show Listings
-			</button>
-			<div className="flex justify-between mt-4">
-				<span
-					onClick={handleDeleteUser}
-					className="font-medium cursor-pointer text-slate-700 hover:text-red-700">
-					Delete account?
-				</span>
-				<span
-					onClick={handleSignOut}
-					className="font-medium text-slate-700 cursor-pointer hover:text-red-700">
-					Sign Out
-				</span>
+				<div className="flex justify-between mt-4">
+					<span
+						onClick={handleDeleteUser}
+						className="font-medium cursor-pointer text-slate-700 hover:text-red-700">
+						Delete account?
+					</span>
+					<span
+						onClick={handleSignOut}
+						className="font-medium text-slate-700 cursor-pointer hover:text-red-700">
+						Sign Out
+					</span>
+				</div>
+				<div>
+					<p>{error ? error : ""}</p>
+				</div>
 			</div>
-			<div>
-				<p>{error ? error : ""}</p>
-			</div>
-			{/* <p className="text-red">{ showListingsError ? "Error showing listings" : " "}</p>
-      { userListings && userListings.length > 0 && 
-        <div className="flex flex-col gap-3">
-          <h1 className="mt-10 mb-5 text-center font-semibold text-lg">Your Listings</h1>
-          {userListings.map((listing) => (
-            <div key={listing._id} className="flex gap-3 justify-between items-center border rounded-xl p-3">
-              <Link to={`/listing/${listing._id}`}><img src={listing.imageUrls[0]} alt="listing image cover" className="w-32 rounded-lg object-contain" /></Link>
-              <Link className="font-semibold hover:underline flex-1 truncate" to={`/listing/${listing._id}`}><p className="cursor-pointer">{listing.name}</p></Link>
-              <div className="flex flex-col gap-3">
-                <button className="rounded-full bg-green-600 hover:bg-green-700 transition duration-300 p-1.5"><xml version="1.0"/><svg width="16" height="16" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M5.32497 43.4996L13.81 43.4998L44.9227 12.3871L36.4374 3.90186L5.32471 35.0146L5.32497 43.4996Z" fill="#ffffff" stroke="#ffffff" strokeWidth="4" strokeLinejoin="round"/><path d="M27.9521 12.3872L36.4374 20.8725" stroke="#ffffff" strokeWidth="4" strokeLinecap="square" strokeLinejoin="round"/></svg></button>
-                <button className="rounded-full bg-red-600 hover:bg-red-700 transition duration-300 p-1.5"><xml version="1.0"/><svg width="16" height="16" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M9 10V44H39V10H9Z" fill="#ffffff" stroke="#ffffff" strokeWidth="4" strokeLinejoin="round"/><path d="M20 20V33" stroke="#b91c1c" strokeWidth="4" strokeLinecap="square" strokeLinejoin="round"/><path d="M28 20V33" stroke="#b91c1c" strokeWidth="4" strokeLinecap="square" strokeLinejoin="round"/><path d="M4 10H44" stroke="#ffffff" strokeWidth="4" strokeLinecap="square" strokeLinejoin="round"/><path d="M16 10L19.289 4H28.7771L32 10H16Z" fill="#ffffff" stroke="#ffffff" strokeWidth="4" strokeLinejoin="round"/></svg></button>
-              </div>
-            </div>
-          ))}
-        </div> 
-      } */}
 		</div>
   );
 }

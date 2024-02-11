@@ -4,6 +4,24 @@
 
 @layer base {
   html {
-    font-family: "Quicksand", sans-serif;
+    font-family: 'Quicksand', sans-serif;
   }
+}
+
+:root {
+  --swiper-navigation-size: 20px;
+  --swiper-theme-color: white;
+}
+
+.swiper-button-next {
+  padding: 20px 50px 0px 50px;
+  height: 100%;
+  top: 10px;
+  right: 0px;
+}
+.swiper-button-prev {
+  padding: 20px 50px 0px 50px;
+  height: 100%;
+  top: 10px;
+  left: 0px;
 }

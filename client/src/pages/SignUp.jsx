@@ -48,10 +48,10 @@ export default function SignUp() {
   console.log(formData);
 
   return (
-		<main className="font-quikcsand absolute top-0 left-1/2 -translate-x-1/2 max-w-sm w-full px-3 md:max-w-lg xl:max-w-xl 2xl:max-w-2xl">
-			<div className="top-0 h-screen flex items-center justify-center">
+		<main>
+			<div className="hero min-h-screen px-4 md:w-5/6 max-w-2xl mx-auto flex items-center">
 				<div className="w-full">
-					<h1 className="text-3xl font-bold mb-2 text-slate-700 md:text-4xl 2xl:text-5xl">
+					<h1 className="text-3xl font-bold mb-2 text-slate-700 md:text-4xl">
 						Selamat datang di Airbnb
 					</h1>
 					<h1 className="text-md mb-12 text-slate-700">

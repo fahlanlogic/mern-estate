@@ -6,10 +6,9 @@ export default {
 		fontFamily: {
 			poppins: "Poppins",
 			quikcsand: "Quicksand",
+			bevietnampro: "Be Vietnam Pro",
+			urbanist: "Urbanist",
 		},
 	},
-	plugins: [
-		require("@tailwindcss/line-clamp"),
-		// ...
-	],
+	plugins: [require("@tailwindcss/line-clamp"), [require("daisyui")]],
 };
