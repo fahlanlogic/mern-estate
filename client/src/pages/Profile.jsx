@@ -114,7 +114,7 @@ export default function Profile() {
     try {
       dispatch(signOutStart());
       const res = await fetch(
-        `${import.meta.env.VITE_BASE_URL_API}api/auth/signout`
+        `${import.meta.env.VITE_BASE_URL_API}/api/auth/signout`
       );
       const data = await res.json();
       if (data.success === false) {

@@ -41,7 +41,7 @@ export default function UpdateListing() {
       setFormData(data);
     };
     fetchListing();
-  }, []);
+  }, [params.listingId]);
 
   const handleImageSubmit = e => {
     // function untuk mengupload gambar
