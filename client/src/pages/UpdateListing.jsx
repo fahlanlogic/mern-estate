@@ -34,107 +34,142 @@ export default function UpdateListing() {
   useEffect(() => {
     const fetchListing = async () => {
       const listingId = params.listingId;
-      const res = await fetch(`/api/listing/get/${listingId}`)
-      const data = await res.json()
-      setFormData(data)
-    }
-    fetchListing()
-  }, [])
+      const res = await fetch(
+        `${import.meta.env.VITE_BASE_URL_API}/api/listing/get/${listingId}`
+      );
+      const data = await res.json();
+      setFormData(data);
+    };
+    fetchListing();
+  }, []);
 
-  const handleImageSubmit = (e) => {  // function untuk mengupload gambar
+  const handleImageSubmit = e => {
+    // function untuk mengupload gambar
     if (files.length > 0 && files.length + formData.imageUrls.length < 7) {
-      setImageUploading(true)
-      const promises = [];  // array untuk menampung promise perulangan url gambar
+      setImageUploading(true);
+      const promises = []; // array untuk menampung promise perulangan url gambar
       for (let i = 0; i < files.length; i++) {
-        promises.push(storeImage(files[i]))  // function storeImage yg menampung filename/url gambar di push ke promises
+        promises.push(storeImage(files[i])); // function storeImage yg menampung filename/url gambar di push ke promises
       }
 
       // mengambil semua url gambar dalam array promises untuk diproses dan ditampilkan
-      Promise.all(promises).then((urls) => {
-        setFormData({ ...formData, imageUrls: formData.imageUrls.concat(urls) })  // menyimpan url gambar ke state dengan object lain dibelakangnya
-        setImageErrorUpload(false)
-        setImageUploading(false)
-      }).catch((error) => {
-        setImageErrorUpload('Image failed upload (max 2 mb per image)')
-        setImageUploading(false)
-      })
+      Promise.all(promises)
+        .then(urls => {
+          setFormData({
+            ...formData,
+            imageUrls: formData.imageUrls.concat(urls),
+          }); // menyimpan url gambar ke state dengan object lain dibelakangnya
+          setImageErrorUpload(false);
+          setImageUploading(false);
+        })
+        .catch(error => {
+          setImageErrorUpload("Image failed upload (max 2 mb per image)");
+          setImageUploading(false);
+        });
     } else {
-      setImageErrorUpload('You can only upload 6 images per listing')
-      setImageUploading(false)
+      setImageErrorUpload("You can only upload 6 images per listing");
+      setImageUploading(false);
     }
-  } 
+  };
 
   // function untuk menyimpan file yg di upload
-  const storeImage = async (file) => {  // berisi parameter yg menyimpan nama file
-    return new Promise((resolve, reject) => {  // buat janji untuk di wujudkan jika berhasil
-      const storage = getStorage(app)  // mengambil storage dari firebase model app
-      const fileName = new Date().getTime() + file.name  // memberi nama file dengan waktu agar unik
-      const storageRef = ref(storage, fileName)  // membuat referensi storage
-      const uploadTask = uploadBytesResumable(storageRef, file)  // upload file ke storage dengan fitur resumable (progres upload)
-      uploadTask.on(  // event listener
-        'state_changed',  // nama event
-        (snapshot) => {  // menghitung progres upload
-          const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;  // menghitung progres upload
+  const storeImage = async file => {
+    // berisi parameter yg menyimpan nama file
+    return new Promise((resolve, reject) => {
+      // buat janji untuk di wujudkan jika berhasil
+      const storage = getStorage(app); // mengambil storage dari firebase model app
+      const fileName = new Date().getTime() + file.name; // memberi nama file dengan waktu agar unik
+      const storageRef = ref(storage, fileName); // membuat referensi storage
+      const uploadTask = uploadBytesResumable(storageRef, file); // upload file ke storage dengan fitur resumable (progres upload)
+      uploadTask.on(
+        // event listener
+        "state_changed", // nama event
+        snapshot => {
+          // menghitung progres upload
+          const progress =
+            (snapshot.bytesTransferred / snapshot.totalBytes) * 100; // menghitung progres upload
           console.log(`Upload is ${progress}% done`);
         },
-        (error) => {
-          reject(error)  // penolakan jika terjadi error
+        error => {
+          reject(error); // penolakan jika terjadi error
         },
         () => {
-          getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {  // fungsi getDownloadURL berasal dari firebase/storage untuk mengambil link download dari storage firebase untuk disimpan ke database mongoDB
-            resolve(downloadURL)  // menyimpan link download ke state
-          })
+          getDownloadURL(uploadTask.snapshot.ref).then(downloadURL => {
+            // fungsi getDownloadURL berasal dari firebase/storage untuk mengambil link download dari storage firebase untuk disimpan ke database mongoDB
+            resolve(downloadURL); // menyimpan link download ke state
+          });
         }
-      )
-    })
-  }
+      );
+    });
+  };
 
-  const handleRemoveImage = (index) => {   // tombol delete
-    setFormData({ ...formData, imageUrls: formData.imageUrls.filter((_, i) => i !== index) })  // logika delete, gak paham
-  }
+  const handleRemoveImage = index => {
+    // tombol delete
+    setFormData({
+      ...formData,
+      imageUrls: formData.imageUrls.filter((_, i) => i !== index),
+    }); // logika delete, gak paham
+  };
 
   // melakukan perubahan pada nilai masing-masing input
-  const handleChange = (e) => {
+  const handleChange = e => {
     // dikategorikan seusai type inputnya masing-masing
-    if (e.target.id === 'sale' || e.target.id === 'rent') {  // kondisi jika salah satu terpilih satu lainnya tidak
-      setFormData({ ...formData, type: e.target.id })
+    if (e.target.id === "sale" || e.target.id === "rent") {
+      // kondisi jika salah satu terpilih satu lainnya tidak
+      setFormData({ ...formData, type: e.target.id });
     }
-    if (e.target.id === 'parking' || e.target.id === 'furnished' || e.target.id === 'offer') {
-      setFormData({ ...formData, [e.target.id]: e.target.checked })
+    if (
+      e.target.id === "parking" ||
+      e.target.id === "furnished" ||
+      e.target.id === "offer"
+    ) {
+      setFormData({ ...formData, [e.target.id]: e.target.checked });
     }
-    if (e.target.type === 'text' || e.target.type === 'number' || e.target.type === 'textarea') {
-      setFormData({ ...formData, [e.target.id]: e.target.value })
+    if (
+      e.target.type === "text" ||
+      e.target.type === "number" ||
+      e.target.type === "textarea"
+    ) {
+      setFormData({ ...formData, [e.target.id]: e.target.value });
     }
-  }
+  };
 
   // meng submit perubahan yang terjadi
-  const handleSubmit = async (e) => {  // parameter e hanya digunakan agar halaman tidak di refresh
-    e.preventDefault()
+  const handleSubmit = async e => {
+    // parameter e hanya digunakan agar halaman tidak di refresh
+    e.preventDefault();
     try {
       // kondisi yang wajib terpenuhi sebelum submit
-      if (formData.name.length < 10) return setError("Name must be at least 10 characters long")
-      if (formData.regularPrice < formData.discountedPrice) return setError("Discounted price must be less than regular price")
-      setLoading(true)  // disable button & loading
-      setError(false)  // tidak menjalankan error
+      if (formData.name.length < 10)
+        return setError("Name must be at least 10 characters long");
+      if (formData.regularPrice < formData.discountedPrice)
+        return setError("Discounted price must be less than regular price");
+      setLoading(true); // disable button & loading
+      setError(false); // tidak menjalankan error
       // mengirimkan data ke API untuk menambahkan data ke database
-      const res = await fetch(`/api/listing/update/${params.listingId}`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({...formData, userRef: currentUser._id}),  // menyimpan data dengan referensi user di isi dengan id user, ini wajib dilakukan karena property _id tidak tersimpan didalam model database maka kita harus menyimpan manual di userRef
-      })
-      const data = await res.json()
-      setLoading(false)
+      const res = await fetch(
+        `${import.meta.env.VITE_BASE_URL_API}/api/listing/update/${
+          params.listingId
+        }`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ ...formData, userRef: currentUser._id }), // menyimpan data dengan referensi user di isi dengan id user, ini wajib dilakukan karena property _id tidak tersimpan didalam model database maka kita harus menyimpan manual di userRef
+        }
+      );
+      const data = await res.json();
+      setLoading(false);
       if (data.success === false) {
-        setError(data.message)
+        setError(data.message);
       }
-      navigate(`/listing/${data._id}`)  // mengarahkan ke halaman listing yang baru di submit
+      navigate(`/listing/${data._id}`); // mengarahkan ke halaman listing yang baru di submit
     } catch (error) {
-      setError(error.message)
-      setLoading(false)
+      setError(error.message);
+      setLoading(false);
     }
-  }
+  };
 
   return (
 		<main>

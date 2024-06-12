@@ -25,13 +25,16 @@ export default function SignIn() {
     dispatch(signInStart()); // disable button
     // lakukan try catch untuk antisipasi kemungkinan error
     try {
-      const res = await fetch("/api/auth/signin", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      });
+      const res = await fetch(
+        `${import.meta.env.VITE_BASE_URL_API}/api/auth/signin`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(formData),
+        }
+      );
       const data = await res.json();
       console.log(data);
       if (data.succes === false) {

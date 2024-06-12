@@ -50,52 +50,68 @@ export default function Search() {
     }
 
     const fetchListing = async () => {
-      setLoading(true)
+      setLoading(true);
       const searchQuery = urlParams.toString();
-      const res = await fetch(`/api/listing/get?${searchQuery}`);
+      const res = await fetch(
+        `${import.meta.env.VITE_BASE_URL_API}/api/listing/get?${searchQuery}`
+      );
       const data = await res.json();
       if (data.length > 8) {
-        setShowMore(true)
+        setShowMore(true);
       } else {
-        setShowMore(false)
+        setShowMore(false);
       }
       setListings(data);
-      setLoading(false)
-    }
+      setLoading(false);
+    };
 
-    fetchListing()
+    fetchListing();
   }, [location.search]);
-  const handleChange = (e) => {
-    if (e.target.id === "all" || e.target.id === "rent" || e.target.id === "sale") {
-      setSidebardata({ ...sidebardata, type: e.target.id })
+  const handleChange = e => {
+    if (
+      e.target.id === "all" ||
+      e.target.id === "rent" ||
+      e.target.id === "sale"
+    ) {
+      setSidebardata({ ...sidebardata, type: e.target.id });
     }
     if (e.target.id === "searchTerm") {
-      setSidebardata({ ...sidebardata, searchTerm: e.target.value })
+      setSidebardata({ ...sidebardata, searchTerm: e.target.value });
     }
-    if (e.target.id === "parking" || e.target.id === "furnished" || e.target.id === "offer") {
-      setSidebardata({ ...sidebardata, [e.target.id]: e.target.checked || e.target.checked === "true" ? true : false })
+    if (
+      e.target.id === "parking" ||
+      e.target.id === "furnished" ||
+      e.target.id === "offer"
+    ) {
+      setSidebardata({
+        ...sidebardata,
+        [e.target.id]:
+          e.target.checked || e.target.checked === "true" ? true : false,
+      });
     }
     if (e.target.id === "sort_order") {
-      const sort = e.target.value.split("_")[0] || "created_at"
-      const order = e.target.value.split("_")[1] || "desc"
-      setSidebardata({ ...sidebardata, sort, order })
+      const sort = e.target.value.split("_")[0] || "created_at";
+      const order = e.target.value.split("_")[1] || "desc";
+      setSidebardata({ ...sidebardata, sort, order });
     }
-  }
+  };
   const handleShowMore = async () => {
     const urlParams = new URLSearchParams(location.search);
     const numberOfListings = listings.length;
     const startIndex = numberOfListings;
     urlParams.set("startIndex", startIndex);
     const searchQuery = urlParams.toString();
-    const res = await fetch(`/api/listing/get?${searchQuery}`);
-    const data = await res.json()
+    const res = await fetch(
+      `${import.meta.env.VITE_BASE_URL_API}/api/listing/get?${searchQuery}`
+    );
+    const data = await res.json();
     setListings([...listings, ...data]);
     if (data.length > 8) {
-      setShowMore(true)
+      setShowMore(true);
     } else {
-      setShowMore(false)
+      setShowMore(false);
     }
-  }
+  };
   const handleSubmit = (e) => {
     e.preventDefault()
     const urlParams = new URLSearchParams();

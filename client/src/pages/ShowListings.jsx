@@ -16,39 +16,44 @@ export default function ShowListing() {
 
 	// function untuk menyimpan data listings yang diambil dari route /api/user/listings untuk disimpankan ke state setUserListings
 	const fetchListings = async () => {
-		try {
-			const res = await fetch(
-				`/api/user/listing/${currentUser._id}`
-			);
-			const data = await res.json();
-			if (data.length === 0) {
-				setEmptyListings(true);
-			}
-			setUserListings(data);
-		} catch (error) {
-			setShowListingsError(true);
-		}
-	};
+    try {
+      const res = await fetch(
+        `${import.meta.env.VITE_BASE_URL_API}/api/user/listing/${
+          currentUser._id
+        }`
+      );
+      const data = await res.json();
+      if (data.length === 0) {
+        setEmptyListings(true);
+      }
+      setUserListings(data);
+    } catch (error) {
+      setShowListingsError(true);
+    }
+  };
 
-	// function menghapus listing
-	const handleDeleteListing = async listingId => {
-		// mentry ke API untuk menghapus listing dengan method DELETE, tidak perlu mengembalikan respon data
-		try {
-			const res = await fetch(`/api/listing/delete/${listingId}`, {
-				method: "DELETE",
-			});
-			const data = await res.json();
-			if (data.succes === false) {
-				console.log(data.message);
-			}
-			// mem filter array artinya memasukan semua array ke dalam array baru terkecuali yang listing._id nya sesuai parameter listingId
-			setUserListings(prev =>
-				prev.filter(listing => listing._id !== listingId)
-			);
-		} catch (error) {
-			console.log(error.message);
-		}
-	};
+  // function menghapus listing
+  const handleDeleteListing = async listingId => {
+    // mentry ke API untuk menghapus listing dengan method DELETE, tidak perlu mengembalikan respon data
+    try {
+      const res = await fetch(
+        `${import.meta.env.VITE_BASE_URL_API}/api/listing/delete/${listingId}`,
+        {
+          method: "DELETE",
+        }
+      );
+      const data = await res.json();
+      if (data.succes === false) {
+        console.log(data.message);
+      }
+      // mem filter array artinya memasukan semua array ke dalam array baru terkecuali yang listing._id nya sesuai parameter listingId
+      setUserListings(prev =>
+        prev.filter(listing => listing._id !== listingId)
+      );
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
 	return (
 		<div className="mx-auto flex items-center px-4 mt-20 md:w-5/6 md:mt-32 lg:max-w-2xl">
 			<div className="w-full">

@@ -15,48 +15,53 @@ export default function Home() {
 	const [offerListing, setOfferListing] = useState([]);
 	const [saleListing, setSaleListing] = useState([]);
 	const [rentListing, setRentListing] = useState([]);
-	console.log(offerListing);
 
-	useEffect(() => {
-		const fetchOfferListing = async () => {
-			try {
-				const res = await fetch(
-					"api/listing/get?offer=true&limit=4"
-				);
-				const data = await res.json();
-				setOfferListing(data);
-				fetchRentListing();
-			} catch (error) {
-				console.log(error);
-			}
-		};
+  useEffect(() => {
+    const fetchOfferListing = async () => {
+      try {
+        const res = await fetch(
+          `${
+            import.meta.env.VITE_BASE_URL_API
+          }api/listing/get?offer=true&limit=4`
+        );
+        const data = await res.json();
+        setOfferListing(data);
+        fetchRentListing();
+      } catch (error) {
+        console.log(error);
+      }
+    };
 
-		const fetchRentListing = async () => {
-			try {
-				const res = await fetch(
-					"api/listing/get?type=rent&limit=4"
-				);
-				const data = await res.json();
-				setRentListing(data);
-				fetchSaleListing();
-			} catch (error) {
-				console.log;
-			}
-		};
+    const fetchRentListing = async () => {
+      try {
+        const res = await fetch(
+          `${
+            import.meta.env.VITE_BASE_URL_API
+          }api/listing/get?type=rent&limit=4`
+        );
+        const data = await res.json();
+        setRentListing(data);
+        fetchSaleListing();
+      } catch (error) {
+        console.log;
+      }
+    };
 
-		const fetchSaleListing = async () => {
-			try {
-				const res = await fetch(
-					"api/listing/get?type=sale&limit=4"
-				);
-				const data = await res.json();
-				setSaleListing(data);
-			} catch (error) {
-				console.log;
-			}
-		};
-		fetchOfferListing();
-	}, [setOfferListing]);
+    const fetchSaleListing = async () => {
+      try {
+        const res = await fetch(
+          `${
+            import.meta.env.VITE_BASE_URL_API
+          }api/listing/get?type=sale&limit=4`
+        );
+        const data = await res.json();
+        setSaleListing(data);
+      } catch (error) {
+        console.log;
+      }
+    };
+    fetchOfferListing();
+  }, [setOfferListing]);
 	return (
     <div>
       {/* header */}

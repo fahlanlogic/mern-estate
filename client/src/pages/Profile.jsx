@@ -60,76 +60,92 @@ export default function Profile() {
     setFormData({ ...formData, [e.target.id]: e.target.value })
   }
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async e => {
     e.preventDefault();
     try {
-      dispatch(updateUserStart())
-      const res = await fetch(`/api/user/update/${currentUser._id}`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(formData)
-      })
-      const data = await res.json()
+      dispatch(updateUserStart());
+      const res = await fetch(
+        `${import.meta.env.VITE_BASE_URL_API}/api/user/update/${
+          currentUser._id
+        }`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(formData),
+        }
+      );
+      const data = await res.json();
       if (data.success === false) {
-        dispatch(updateUserFailure(data.message))
-        return
+        dispatch(updateUserFailure(data.message));
+        return;
       }
-      dispatch(updateUserSuccess(data))
+      dispatch(updateUserSuccess(data));
     } catch (error) {
-      updateUserFailure(error.message)
+      updateUserFailure(error.message);
     }
-  }
+  };
 
   const handleDeleteUser = async () => {
     try {
-      dispatch(deleteUserStart())  // seperti biasa gunakan redux agar lebih dinamis
+      dispatch(deleteUserStart()); // seperti biasa gunakan redux agar lebih dinamis
       // menautkan ke API untuk menghapus user sesuai id
-      const res = await fetch(`/api/user/delete/${currentUser._id}`, {
-        method: 'DELETE',  // cukup method saat melakukan delete, karena tidak perlu membalikan respon apapun
-      })
-      const data = res.json()
+      const res = await fetch(
+        `${import.meta.env.VITE_BASE_URL_API}/api/user/delete/${
+          currentUser._id
+        }`,
+        {
+          method: "DELETE", // cukup method saat melakukan delete, karena tidak perlu membalikan respon apapun
+        }
+      );
+      const data = res.json();
       if (data.success === false) {
-        dispatch(deleteUserFailure(data.message))
-        return
+        dispatch(deleteUserFailure(data.message));
+        return;
       }
-      dispatch(deleteUserSuccess(data))
+      dispatch(deleteUserSuccess(data));
     } catch (error) {
-      dispatch(deleteUserFailure(error.message))
+      dispatch(deleteUserFailure(error.message));
     }
-  }
+  };
 
   const handleSignOut = async () => {
     try {
-      dispatch(signOutStart())
-      const res =  await fetch('api/auth/signout');
+      dispatch(signOutStart());
+      const res = await fetch(
+        `${import.meta.env.VITE_BASE_URL_API}api/auth/signout`
+      );
       const data = await res.json();
       if (data.success === false) {
-        dispatch(signOutFailure(data.message))
-        return
+        dispatch(signOutFailure(data.message));
+        return;
       }
-      dispatch(signOutSuccess(data))
+      dispatch(signOutSuccess(data));
     } catch (error) {
-      dispatch(signOutFailure(error.message))
+      dispatch(signOutFailure(error.message));
     }
-  }
+  };
 
   const handleShowListings = async () => {
     try {
       // setShowListingsError(false)
-      const res = await fetch(`/api/user/listing/${currentUser._id}`);
+      const res = await fetch(
+        `${import.meta.env.VITE_BASE_URL_API}/api/user/listing/${
+          currentUser._id
+        }`
+      );
       const data = await res.json();
       if (data.success === false) {
-        setShowListingsError(data.message)
-        return
+        setShowListingsError(data.message);
+        return;
       }
       // setUserListings(data);
-      navigate("/show-listing")
+      navigate("/show-listing");
     } catch (error) {
       setShowListingsError(true);
     }
-  }
+  };
 
   return (
 		<div className="mx-auto h-screen flex items-center justify-center px-4 md:w-5/6 lg:max-w-2xl">
