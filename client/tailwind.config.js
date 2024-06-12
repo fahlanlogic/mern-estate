@@ -5,10 +5,9 @@ export default {
 	theme: {
 		fontFamily: {
 			poppins: "Poppins",
-			quikcsand: "Quicksand",
+			nunito: "Nunito",
 			bevietnampro: "Be Vietnam Pro",
-			urbanist: "Urbanist",
 		},
 	},
-	plugins: [require("@tailwindcss/line-clamp"), [require("daisyui")]],
+	plugins: [require("daisyui")],
 };

@@ -97,7 +97,7 @@ export default function Header() {
 
 							{/* menu */}
 							<div className="basis-2/6 flex justify-end">
-								<ul className="flex gap-2 xl:gap-6 items-center text-sm font-quikcsand font-semibold text-slate-700">
+								<ul className="flex gap-2 xl:gap-6 items-center text-sm font-nunito font-semibold text-slate-700">
 									<Link to="/create-listing">
 										<li className="hover:bg-gray-100 px-2 py-1.5 text-sm rounded-full transition-all duration-300 hidden lg:block">
 											Jadikan
