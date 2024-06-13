@@ -34,9 +34,7 @@ export default function UpdateListing() {
   useEffect(() => {
     const fetchListing = async () => {
       const listingId = params.listingId;
-      const res = await fetch(
-        `${import.meta.env.VITE_BASE_URL_API}/api/listing/get/${listingId}`
-      );
+      const res = await fetch(`/api/listing/get/${listingId}`);
       const data = await res.json();
       setFormData(data);
     };
@@ -147,18 +145,13 @@ export default function UpdateListing() {
       setLoading(true); // disable button & loading
       setError(false); // tidak menjalankan error
       // mengirimkan data ke API untuk menambahkan data ke database
-      const res = await fetch(
-        `${import.meta.env.VITE_BASE_URL_API}/api/listing/update/${
-          params.listingId
-        }`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ ...formData, userRef: currentUser._id }), // menyimpan data dengan referensi user di isi dengan id user, ini wajib dilakukan karena property _id tidak tersimpan didalam model database maka kita harus menyimpan manual di userRef
-        }
-      );
+      const res = await fetch(`/api/listing/update/${params.listingId}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ ...formData, userRef: currentUser._id }), // menyimpan data dengan referensi user di isi dengan id user, ini wajib dilakukan karena property _id tidak tersimpan didalam model database maka kita harus menyimpan manual di userRef
+      });
       const data = await res.json();
       setLoading(false);
       if (data.success === false) {

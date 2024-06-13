@@ -17,11 +17,7 @@ export default function ShowListing() {
 	// function untuk menyimpan data listings yang diambil dari route /api/user/listings untuk disimpankan ke state setUserListings
 	const fetchListings = async () => {
     try {
-      const res = await fetch(
-        `${import.meta.env.VITE_BASE_URL_API}/api/user/listing/${
-          currentUser._id
-        }`
-      );
+      const res = await fetch(`/api/user/listing/${currentUser._id}`);
       const data = await res.json();
       if (data.length === 0) {
         setEmptyListings(true);
@@ -37,7 +33,7 @@ export default function ShowListing() {
     // mentry ke API untuk menghapus listing dengan method DELETE, tidak perlu mengembalikan respon data
     try {
       const res = await fetch(
-        `${import.meta.env.VITE_BASE_URL_API}/api/listing/delete/${listingId}`,
+        `/api/listing/delete/${listingId}`,
         {
           method: "DELETE",
         }
