@@ -23,9 +23,6 @@ export default function Profile() {
   const [showListingsError, setShowListingsError] = useState(false);
   const dispatch = useDispatch()
   const navigate = useNavigate();
-  console.log(filePerc);
-  console.log(fileUploadError);
-  console.log(formData);
 
   // untuk re-render avatar setelah file diupload
   useEffect(() => {

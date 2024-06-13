@@ -24,7 +24,7 @@ export default function Home() {
         setOfferListing(data);
         fetchRentListing();
       } catch (error) {
-        console.log(error);
+        console.log;
       }
     };
 

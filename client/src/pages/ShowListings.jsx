@@ -32,22 +32,19 @@ export default function ShowListing() {
   const handleDeleteListing = async listingId => {
     // mentry ke API untuk menghapus listing dengan method DELETE, tidak perlu mengembalikan respon data
     try {
-      const res = await fetch(
-        `/api/listing/delete/${listingId}`,
-        {
-          method: "DELETE",
-        }
-      );
+      const res = await fetch(`/api/listing/delete/${listingId}`, {
+        method: "DELETE",
+      });
       const data = await res.json();
       if (data.succes === false) {
-        console.log(data.message);
+        // console.log(data.message);
       }
       // mem filter array artinya memasukan semua array ke dalam array baru terkecuali yang listing._id nya sesuai parameter listingId
       setUserListings(prev =>
         prev.filter(listing => listing._id !== listingId)
       );
     } catch (error) {
-      console.log(error.message);
+      // console.log(error.message);
     }
   };
 	return (

@@ -28,9 +28,8 @@ export default function UpdateListing() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
   const navigate = useNavigate();
-  const params = useParams()
-  console.log(formData);
-  
+  const params = useParams();
+
   useEffect(() => {
     const fetchListing = async () => {
       const listingId = params.listingId;
@@ -86,7 +85,7 @@ export default function UpdateListing() {
           // menghitung progres upload
           const progress =
             (snapshot.bytesTransferred / snapshot.totalBytes) * 100; // menghitung progres upload
-          console.log(`Upload is ${progress}% done`);
+          // console.log(`Upload is ${progress}% done`);
         },
         error => {
           reject(error); // penolakan jika terjadi error

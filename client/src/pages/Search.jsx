@@ -15,9 +15,8 @@ export default function Search() {
     parking: false,
     furnished: false,
     sort: "created_at",
-    order: "desc"
-  })
-  console.log(listings);
+    order: "desc",
+  });
   useEffect(() => {
     const urlParams = new URLSearchParams(location.search);
     const searchTermFromUrl = urlParams.get("searchTerm");
