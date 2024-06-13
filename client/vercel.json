@@ -4,5 +4,20 @@
       "source": "/api/(.*)",
       "destination": "https://mern-estate-silk.vercel.app/api/$1"
     }
+  ],
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "Cross-Origin-Opener-Policy",
+          "value": "same-origin"
+        },
+        {
+          "key": "Cross-Origin-Embedder-Policy",
+          "value": "require-corp"
+        }
+      ]
+    }
   ]
 }
