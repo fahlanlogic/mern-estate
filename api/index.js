@@ -5,7 +5,6 @@ import userRouter from "./routes/user.route.js";
 import authRouter from "./routes/auth.route.js";
 import listingRouter from "./routes/listing.route.js";
 import cookieParser from "cookie-parser";
-// import cors from "cors";
 
 // inisialisasi dari package dotenv agar bisa dipakai
 dotenv.config();
@@ -16,15 +15,6 @@ const router = express.Router();
 
 app.use(express.json());
 app.use(cookieParser());
-// app.use(cors());
-
-// middleware untuk menambahkan header ke semua respons dari /api/listing/*
-app.use("/api/listing/*", (req, res, next) => {
-  res.setHeader("Cross-Origin-Opener-Policy", "same-origin");
-  res.setHeader("Cross-Origin-Embedder-Policy", "require-corp");
-  res.setHeader("Cross-Origin-Resource-Policy", "cross-origin");
-  next();
-});
 
 // menghubungkan server dengan database mongoDB menggunakan perintah connect dan lakukan percobaan dengan then/catch
 mongoose
